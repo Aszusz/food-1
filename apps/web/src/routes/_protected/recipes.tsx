@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, redirect } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { orpc } from "../../orpc";
 
@@ -26,7 +27,10 @@ function RecipesPage() {
         </CardHeader>
         <CardContent>
           {recipes.length === 0 && (
-            <p className="text-muted-foreground">No recipes yet</p>
+            <div className="flex items-center justify-between gap-4">
+              <p className="text-muted-foreground">No recipes yet</p>
+              <Button type="button">New Recipe</Button>
+            </div>
           )}
         </CardContent>
       </Card>

@@ -60,3 +60,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.workspace-nav-link[aria-current="page"] {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}

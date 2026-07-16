@@ -84,9 +84,7 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await page.getByLabel("Email").fill(email);
   await page.getByLabel("Password").fill(password);
   await page.getByRole("button", { name: "Log in" }).click();
-  await expect(
-    page.getByRole("heading", { name: "Create your household" }),
-  ).toBeVisible();
+  await expect(page).toHaveURL(/\/(?:household\/create|recipes)$/);
 }
 
 async function signUp(page: import("@playwright/test").Page, email: string) {

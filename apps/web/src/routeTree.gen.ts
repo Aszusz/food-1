@@ -14,6 +14,8 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PublicSignupRouteImport } from './routes/_public/signup'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
+import { Route as ProtectedShoppingRouteImport } from './routes/_protected/shopping'
+import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
 import { Route as ProtectedRecipesRouteImport } from './routes/_protected/recipes'
 import { Route as ProtectedHouseholdCreateRouteImport } from './routes/_protected/household/create'
 
@@ -40,6 +42,16 @@ const PublicLoginRoute = PublicLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => PublicRoute,
 } as any)
+const ProtectedShoppingRoute = ProtectedShoppingRouteImport.update({
+  id: '/shopping',
+  path: '/shopping',
+  getParentRoute: () => ProtectedRoute,
+} as any)
+const ProtectedSettingsRoute = ProtectedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => ProtectedRoute,
+} as any)
 const ProtectedRecipesRoute = ProtectedRecipesRouteImport.update({
   id: '/recipes',
   path: '/recipes',
@@ -55,6 +67,8 @@ const ProtectedHouseholdCreateRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/recipes': typeof ProtectedRecipesRoute
+  '/settings': typeof ProtectedSettingsRoute
+  '/shopping': typeof ProtectedShoppingRoute
   '/login': typeof PublicLoginRoute
   '/signup': typeof PublicSignupRoute
   '/household/create': typeof ProtectedHouseholdCreateRoute
@@ -62,6 +76,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/recipes': typeof ProtectedRecipesRoute
+  '/settings': typeof ProtectedSettingsRoute
+  '/shopping': typeof ProtectedShoppingRoute
   '/login': typeof PublicLoginRoute
   '/signup': typeof PublicSignupRoute
   '/household/create': typeof ProtectedHouseholdCreateRoute
@@ -72,21 +88,39 @@ export interface FileRoutesById {
   '/_protected': typeof ProtectedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
   '/_protected/recipes': typeof ProtectedRecipesRoute
+  '/_protected/settings': typeof ProtectedSettingsRoute
+  '/_protected/shopping': typeof ProtectedShoppingRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/signup': typeof PublicSignupRoute
   '/_protected/household/create': typeof ProtectedHouseholdCreateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/recipes' | '/login' | '/signup' | '/household/create'
+  fullPaths:
+    | '/'
+    | '/recipes'
+    | '/settings'
+    | '/shopping'
+    | '/login'
+    | '/signup'
+    | '/household/create'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/recipes' | '/login' | '/signup' | '/household/create'
+  to:
+    | '/'
+    | '/recipes'
+    | '/settings'
+    | '/shopping'
+    | '/login'
+    | '/signup'
+    | '/household/create'
   id:
     | '__root__'
     | '/'
     | '/_protected'
     | '/_public'
     | '/_protected/recipes'
+    | '/_protected/settings'
+    | '/_protected/shopping'
     | '/_public/login'
     | '/_public/signup'
     | '/_protected/household/create'
@@ -135,6 +169,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLoginRouteImport
       parentRoute: typeof PublicRoute
     }
+    '/_protected/shopping': {
+      id: '/_protected/shopping'
+      path: '/shopping'
+      fullPath: '/shopping'
+      preLoaderRoute: typeof ProtectedShoppingRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/settings': {
+      id: '/_protected/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof ProtectedSettingsRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
     '/_protected/recipes': {
       id: '/_protected/recipes'
       path: '/recipes'
@@ -154,11 +202,15 @@ declare module '@tanstack/react-router' {
 
 interface ProtectedRouteChildren {
   ProtectedRecipesRoute: typeof ProtectedRecipesRoute
+  ProtectedSettingsRoute: typeof ProtectedSettingsRoute
+  ProtectedShoppingRoute: typeof ProtectedShoppingRoute
   ProtectedHouseholdCreateRoute: typeof ProtectedHouseholdCreateRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
   ProtectedRecipesRoute: ProtectedRecipesRoute,
+  ProtectedSettingsRoute: ProtectedSettingsRoute,
+  ProtectedShoppingRoute: ProtectedShoppingRoute,
   ProtectedHouseholdCreateRoute: ProtectedHouseholdCreateRoute,
 }
 
