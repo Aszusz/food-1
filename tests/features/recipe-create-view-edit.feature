@@ -7,6 +7,7 @@ Feature: Recipe create, view, and edit
   Scenario: A member opens the recipe editor from the Recipe List
     When I select the New Recipe action
     Then I should be viewing the New Recipe editor
+    And no Hooks error should have occurred during navigation
 
   Scenario: A member creates an ordered recipe
     When I select the New Recipe action

@@ -27,13 +27,12 @@ function RecipeDetailPage() {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
-  if (pathname.endsWith("/edit")) return <Outlet />;
-
   const { recipeId } = Route.useParams();
   const { data: recipe } = useQuery({
     queryKey: ["recipe", recipeId],
     queryFn: () => orpc.recipes.get({ id: recipeId }),
   });
+  if (pathname.endsWith("/edit")) return <Outlet />;
   if (!recipe) return null;
 
   return (

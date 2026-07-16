@@ -23,12 +23,11 @@ function RecipesPage() {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
-  if (pathname !== "/recipes") return <Outlet />;
-
   const { data: recipes = [] } = useQuery({
     queryKey: ["recipes"],
     queryFn: () => orpc.recipes.list(),
   });
+  if (pathname !== "/recipes") return <Outlet />;
 
   return (
     <main className="min-h-screen px-4 py-10">

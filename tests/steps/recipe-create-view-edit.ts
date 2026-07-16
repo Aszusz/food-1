@@ -3,8 +3,17 @@ import { createBdd } from "playwright-bdd";
 
 const { Given, When, Then } = createBdd();
 const recipeAddresses = new WeakMap<import("@playwright/test").Page, string>();
+const navigationErrors = new WeakMap<
+  import("@playwright/test").Page,
+  string[]
+>();
 
 When("I select the New Recipe action", async ({ page }) => {
+  const errors: string[] = [];
+  navigationErrors.set(page, errors);
+  page.on("console", (message) => {
+    if (message.type() === "error") errors.push(message.text());
+  });
   await actionControl(page, "New Recipe").click();
 });
 
@@ -108,6 +117,15 @@ When("I visit the recorded recipe address", async ({ page }) => {
 Then("I should be viewing the New Recipe editor", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "New Recipe" })).toBeVisible();
 });
+
+Then(
+  "no Hooks error should have occurred during navigation",
+  async ({ page }) => {
+    await expect(navigationErrors.get(page) ?? []).not.toContain(
+      expect.stringContaining("Rendered fewer hooks than expected"),
+    );
+  },
+);
 
 Then(
   "I should be viewing Recipe Detail for {string}",
