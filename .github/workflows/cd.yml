@@ -11,7 +11,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  DEPLOY_WEBHOOK_URL: https://fullstack.typestrict.dev/deploy/monobara-codex
+  DEPLOY_WEBHOOK_URL: https://fullstack.typestrict.dev/deploy/food-1
 
 jobs:
   publish:
@@ -21,12 +21,12 @@ jobs:
       matrix:
         include:
           - name: web
-            image: ghcr.io/aszusz/monobara-codex-web
+            image: ghcr.io/aszusz/food-1-web
             file: apps/web/Dockerfile
             build_args: |
               VITE_API_URL=
           - name: api
-            image: ghcr.io/aszusz/monobara-codex-api
+            image: ghcr.io/aszusz/food-1-api
             file: apps/api/Dockerfile
             build_args: ""
 
@@ -80,8 +80,8 @@ jobs:
             --arg tag "${TAG}" \
             --arg commit "${COMMIT}" \
             --arg composeSha256 "${compose_sha256}" \
-            --arg webImage "ghcr.io/aszusz/monobara-codex-web:${TAG}" \
-            --arg apiImage "ghcr.io/aszusz/monobara-codex-api:${TAG}" \
+            --arg webImage "ghcr.io/aszusz/food-1-web:${TAG}" \
+            --arg apiImage "ghcr.io/aszusz/food-1-api:${TAG}" \
             '{
               repo: $repo,
               tag: $tag,

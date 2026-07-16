@@ -1,6 +1,6 @@
 services:
   web:
-    image: ${WEB_IMAGE:-ghcr.io/aszusz/monobara-codex-web:${TAG:-latest}}
+    image: ${WEB_IMAGE:-ghcr.io/aszusz/food-1-web:${TAG:-latest}}
     build:
       context: .
       dockerfile: apps/web/Dockerfile
@@ -12,7 +12,7 @@ services:
       - api
 
   api:
-    image: ${API_IMAGE:-ghcr.io/aszusz/monobara-codex-api:${TAG:-latest}}
+    image: ${API_IMAGE:-ghcr.io/aszusz/food-1-api:${TAG:-latest}}
     build:
       context: .
       dockerfile: apps/api/Dockerfile
@@ -31,7 +31,7 @@ services:
         condition: service_completed_successfully
 
   migrate:
-    image: ${API_IMAGE:-ghcr.io/aszusz/monobara-codex-api:${TAG:-latest}}
+    image: ${API_IMAGE:-ghcr.io/aszusz/food-1-api:${TAG:-latest}}
     build:
       context: .
       dockerfile: apps/api/Dockerfile
