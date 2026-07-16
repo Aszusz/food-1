@@ -1,9 +1,15 @@
-import { todosContract } from "./todos";
+import { cookbookContract } from "./cookbook";
 
-export type { Todo } from "./todos";
+export type {
+  Household,
+  Ingredient,
+  Overview,
+  Recipe,
+  ShoppingItem,
+} from "./cookbook";
 
 export const contract = {
-  todos: todosContract,
+  cookbook: cookbookContract,
 };
 
 export type AppRouter = typeof contract;

@@ -1,31 +1,22 @@
-Feature: Auth
+Feature: Authentication
 
-  Scenario: Sign up
-    Given I am signed out
-    When I sign up as "alice@example.com"
-    Then I should be viewing the todo app
-
-  Scenario: Log in
+  Scenario: Sign in
     Given I have an account for "alice@example.com"
-    When I log in as "alice@example.com"
-    Then I should be viewing the todo app
+    When I sign in as "alice@example.com"
+    Then I should be ready to create a household
 
-  Scenario: Invalid credentials
+  Scenario: Reject invalid credentials
     Given I have an account for "alice@example.com"
-    When I log in as "alice@example.com" with password "wrongpassword"
+    When I sign in as "alice@example.com" with password "wrongpassword"
     Then I should see an invalid credentials message
 
-  Scenario: Authenticated users skip login
-    Given I am signed in as "alice@example.com"
-    When I visit the login page
-    Then I should be viewing the todo app
+  Scenario: Recover when the signup endpoint is unavailable
+    Given the signup endpoint is unavailable
+    When I sign up as "alice@example.com" named "Alice"
+    Then I should see the signup error "The server did not respond. Please try again."
+    And the Create account button should be enabled
 
-  Scenario: Authenticated users skip signup
-    Given I am signed in as "alice@example.com"
-    When I visit the signup page
-    Then I should be viewing the todo app
-
-  Scenario: Anonymous users cannot access protected routes
+  Scenario: Anonymous users cannot access the cookbook
     Given I am signed out
-    When I visit the protected todos page
-    Then I should be viewing the login page
+    When I visit the protected cookbook
+    Then I should be viewing the sign-in page

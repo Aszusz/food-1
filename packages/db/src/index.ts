@@ -1,13 +1,21 @@
 import { db } from "./client";
 import { account, session, user, verification } from "./schema/auth";
-import { todos } from "./schema/todos";
+import {
+  householdMembers,
+  households,
+  recipes,
+  shoppingItems,
+} from "./schema/cookbook";
 
 export { db } from "./client";
+export * from "./cookbook";
 export * as schema from "./schema";
-export * from "./todos";
 
 export async function resetDatabase() {
-  await db.delete(todos);
+  await db.delete(shoppingItems);
+  await db.delete(recipes);
+  await db.delete(householdMembers);
+  await db.delete(households);
   await db.delete(session);
   await db.delete(account);
   await db.delete(verification);

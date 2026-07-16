@@ -1,79 +1,75 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { ChevronRight } from "lucide-react";
 import type { FormEvent } from "react";
 import { useState } from "react";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { appVersion } from "../../app-version";
 import { authClient } from "../../auth-client";
-import { AuthFields } from "./login";
+import { AuthFields, AuthLayout } from "./login";
 
 export const Route = createFileRoute("/_public/signup")({
   component: SignupPage,
 });
 
 function SignupPage() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
-    const result = await authClient.signUp.email({
-      email,
-      password,
-      name: email,
-    });
-    if (result.error) {
-      setError(result.error.message ?? "Could not sign up");
-      return;
+    setSubmitting(true);
+    try {
+      const result = await authClient.signUp.email({ email, password, name });
+      if (result.error) {
+        setError(result.error.message ?? "Your account could not be created.");
+        return;
+      }
+      window.location.href = "/app";
+    } catch {
+      setError("The server did not respond. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
-    window.location.href = "/todos?filter=all";
   }
 
   return (
-    <main className="min-h-screen px-4 py-10">
-      <Card className="mx-auto max-w-sm rounded-3xl border-white/10 bg-card shadow-2xl">
-        <CardHeader className="gap-2 text-center">
-          <CardTitle className="text-4xl font-black tracking-tight text-white">
-            Monobara
-          </CardTitle>
-          <h2 className="text-sm font-medium uppercase tracking-[0.28em] text-primary/50">
-            Sign Up
-          </h2>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={submit}>
-            <AuthFields
-              email={email}
-              password={password}
-              setEmail={setEmail}
-              setPassword={setPassword}
-            />
-            {error && (
-              <Alert variant="destructive" className="mt-4">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-            <Button type="submit" className="mt-6 w-full rounded-xl">
-              Sign up
-            </Button>
-            <Link
-              to="/login"
-              className={buttonVariants({
-                variant: "link",
-                className: "mt-4 h-auto w-full p-0 text-primary/75",
-              })}
-            >
-              Already have an account? Log in
-            </Link>
-          </form>
-        </CardContent>
-      </Card>
-      <p className="mt-6 text-center text-xs text-muted-foreground">
-        v{appVersion}
+    <AuthLayout>
+      <p className="eyebrow">Set the table</p>
+      <h2>Create your account</h2>
+      <p className="auth-subtitle">
+        Then create a household or join someone you cook with.
       </p>
-    </main>
+      <form onSubmit={submit}>
+        <label htmlFor="name">Your name</label>
+        <input
+          id="name"
+          autoComplete="name"
+          required
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+          placeholder="Alex Parker"
+        />
+        <AuthFields
+          email={email}
+          password={password}
+          setEmail={setEmail}
+          setPassword={setPassword}
+        />
+        {error ? <p className="form-error auth-error">{error}</p> : null}
+        <button
+          className="primary-button auth-submit"
+          type="submit"
+          disabled={submitting}
+        >
+          {submitting ? "Creating account..." : "Create account"}{" "}
+          <ChevronRight />
+        </button>
+      </form>
+      <p className="auth-switch">
+        Already have an account? <Link to="/login">Sign in</Link>
+      </p>
+    </AuthLayout>
   );
 }

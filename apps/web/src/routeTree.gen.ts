@@ -14,7 +14,7 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PublicSignupRouteImport } from './routes/_public/signup'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
-import { Route as ProtectedTodosRouteImport } from './routes/_protected/todos'
+import { Route as ProtectedAppRouteImport } from './routes/_protected/app'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -39,21 +39,21 @@ const PublicLoginRoute = PublicLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => PublicRoute,
 } as any)
-const ProtectedTodosRoute = ProtectedTodosRouteImport.update({
-  id: '/todos',
-  path: '/todos',
+const ProtectedAppRoute = ProtectedAppRouteImport.update({
+  id: '/app',
+  path: '/app',
   getParentRoute: () => ProtectedRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/todos': typeof ProtectedTodosRoute
+  '/app': typeof ProtectedAppRoute
   '/login': typeof PublicLoginRoute
   '/signup': typeof PublicSignupRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/todos': typeof ProtectedTodosRoute
+  '/app': typeof ProtectedAppRoute
   '/login': typeof PublicLoginRoute
   '/signup': typeof PublicSignupRoute
 }
@@ -62,21 +62,21 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_protected': typeof ProtectedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
-  '/_protected/todos': typeof ProtectedTodosRoute
+  '/_protected/app': typeof ProtectedAppRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/signup': typeof PublicSignupRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/todos' | '/login' | '/signup'
+  fullPaths: '/' | '/app' | '/login' | '/signup'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/todos' | '/login' | '/signup'
+  to: '/' | '/app' | '/login' | '/signup'
   id:
     | '__root__'
     | '/'
     | '/_protected'
     | '/_public'
-    | '/_protected/todos'
+    | '/_protected/app'
     | '/_public/login'
     | '/_public/signup'
   fileRoutesById: FileRoutesById
@@ -124,22 +124,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLoginRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_protected/todos': {
-      id: '/_protected/todos'
-      path: '/todos'
-      fullPath: '/todos'
-      preLoaderRoute: typeof ProtectedTodosRouteImport
+    '/_protected/app': {
+      id: '/_protected/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof ProtectedAppRouteImport
       parentRoute: typeof ProtectedRoute
     }
   }
 }
 
 interface ProtectedRouteChildren {
-  ProtectedTodosRoute: typeof ProtectedTodosRoute
+  ProtectedAppRoute: typeof ProtectedAppRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
-  ProtectedTodosRoute: ProtectedTodosRoute,
+  ProtectedAppRoute: ProtectedAppRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(
