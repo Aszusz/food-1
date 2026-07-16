@@ -25,7 +25,7 @@ export function RecipeFormPage({
 }) {
   return (
     <main className="min-h-screen px-4 py-10">
-      <Card className="mx-auto max-w-3xl rounded-3xl border-white/10 bg-card shadow-2xl">
+      <Card className="mx-auto max-w-5xl rounded-3xl border-white/10 bg-card shadow-2xl">
         <CardHeader className="flex-row items-center justify-between gap-4">
           <CardTitle className="text-3xl tracking-tight">{title}</CardTitle>
           <Link

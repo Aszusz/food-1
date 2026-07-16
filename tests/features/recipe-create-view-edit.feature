@@ -9,6 +9,53 @@ Feature: Recipe create, view, and edit
     Then I should be viewing the New Recipe editor
     And no Hooks error should have occurred during navigation
 
+  Scenario: A new recipe editor shows empty ingredient and step lists
+    When I select the New Recipe action
+    Then the recipe editor should show empty ingredient and step lists
+    And the recipe editor fields should have visible labels
+    And the "Recipes" navigation control should be selected
+
+  Scenario: A member keeps unsaved changes after dismissing navigation confirmation
+    When I select the New Recipe action
+    And I enter recipe title "Unsaved vegetable soup"
+    And I dismiss the confirmation to return to the Recipe List
+    Then I should be viewing the New Recipe editor
+    And the recipe editor title should be "Unsaved vegetable soup"
+
+  Scenario: A member removes the last cooking step from the new recipe editor
+    When I select the New Recipe action
+    And I add cooking step "Chop the vegetables"
+    And I remove cooking step "Chop the vegetables"
+    Then the recipe editor should show an empty cooking step list
+
+  Scenario: A member moves an ingredient down in the new recipe editor
+    When I select the New Recipe action
+    And I add ingredient "Carrot" with quantity "2" and unit "whole"
+    And I add ingredient "Salt" with quantity "1" and unit "tsp"
+    And I move ingredient "Carrot" down
+    Then ingredient names in the recipe editor should appear in this order:
+      | name   |
+      | Salt   |
+      | Carrot |
+
+  Scenario: A member edits an ingredient in the new recipe editor
+    When I select the New Recipe action
+    And I add ingredient "Carrot" with quantity "2" and unit "whole"
+    And I rename ingredient "Carrot" to "Parsnip"
+    Then ingredient names in the recipe editor should appear in this order:
+      | name    |
+      | Parsnip |
+
+  Scenario: A member moves a cooking step down in the new recipe editor
+    When I select the New Recipe action
+    And I add cooking step "Chop the vegetables"
+    And I add cooking step "Simmer for 20 minutes"
+    And I move cooking step "Chop the vegetables" down
+    Then cooking steps in the recipe editor should appear in this order:
+      | step                  |
+      | Simmer for 20 minutes |
+      | Chop the vegetables   |
+
   Scenario: A member creates an ordered recipe
     When I select the New Recipe action
     And I enter recipe title "Vegetable soup"

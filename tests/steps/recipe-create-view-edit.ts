@@ -52,19 +52,47 @@ When("I remove ingredient {string}", async ({ page }, name: string) => {
   await page.getByRole("button", { name: `Remove ingredient ${name}` }).click();
 });
 
+When(
+  "I rename ingredient {string} to {string}",
+  async ({ page }, name: string, newName: string) => {
+    await page.getByRole("button", { name: `Edit ingredient ${name}` }).click();
+    const row = page
+      .getByLabel("Ingredients")
+      .getByRole("row", { name: "Edit ingredient", exact: true })
+      .last();
+    await row.getByLabel("Name").fill(newName);
+    await row.getByRole("button", { name: "Update ingredient" }).click();
+  },
+);
+
 When("I move ingredient {string} up", async ({ page }, name: string) => {
   await page
     .getByRole("button", { name: `Move ingredient ${name} up` })
     .click();
 });
 
+When("I move ingredient {string} down", async ({ page }, name: string) => {
+  await page
+    .getByRole("button", { name: `Move ingredient ${name} down` })
+    .click();
+});
+
 When("I add cooking step {string}", async ({ page }, step: string) => {
   await page.getByRole("button", { name: "Add step" }).click();
-  await page.getByLabel("Cooking step").last().fill(step);
+  const row = page.getByLabel("Steps").getByRole("listitem").last();
+  await row.getByRole("textbox").fill(step);
 });
 
 When("I move cooking step {string} up", async ({ page }, step: string) => {
   await page.getByRole("button", { name: `Move step ${step} up` }).click();
+});
+
+When("I move cooking step {string} down", async ({ page }, step: string) => {
+  await page.getByRole("button", { name: `Move step ${step} down` }).click();
+});
+
+When("I remove cooking step {string}", async ({ page }, step: string) => {
+  await page.getByRole("button", { name: `Remove step ${step}` }).click();
 });
 
 When("I save the recipe", async ({ page }) => {
@@ -100,6 +128,24 @@ When("I return to the Recipe List", async ({ page }) => {
     .click();
 });
 
+When(
+  "I dismiss the confirmation to return to the Recipe List",
+  async ({ page }) => {
+    let confirmationMessage = "";
+    page.once("dialog", async (dialog) => {
+      confirmationMessage = dialog.message();
+      await dialog.dismiss();
+    });
+    await page
+      .getByLabel("Primary navigation")
+      .getByRole("link", { name: "Recipes", exact: true })
+      .click();
+    await expect
+      .poll(() => confirmationMessage)
+      .toBe("Discard your unsaved recipe changes?");
+  },
+);
+
 Given(
   "I record the address for recipe {string}",
   async ({ page }, title: string) => {
@@ -117,6 +163,79 @@ When("I visit the recorded recipe address", async ({ page }) => {
 Then("I should be viewing the New Recipe editor", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "New Recipe" })).toBeVisible();
 });
+
+Then(
+  "the recipe editor should show empty ingredient and step lists",
+  async ({ page }) => {
+    await expect(
+      page.getByLabel("Ingredients").getByRole("row", { name: /^Ingredient / }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByText("Add the ingredients people need to make this recipe."),
+    ).toBeVisible();
+    await expect(page.getByLabel("Steps").getByRole("listitem")).toHaveCount(0);
+    await expect(
+      page.getByText("Add the cooking steps in the order they should happen."),
+    ).toBeVisible();
+  },
+);
+
+Then(
+  "the recipe editor fields should have visible labels",
+  async ({ page }) => {
+    for (const label of ["Title", "Description"]) {
+      await expect(page.getByLabel(label, { exact: true })).toBeVisible();
+    }
+  },
+);
+
+Then(
+  "the recipe editor title should be {string}",
+  async ({ page }, title: string) => {
+    await expect(page.getByLabel("Title")).toHaveValue(title);
+  },
+);
+
+Then(
+  "the recipe editor should show an empty cooking step list",
+  async ({ page }) => {
+    await expect(page.getByLabel("Steps").getByRole("listitem")).toHaveCount(0);
+    await expect(
+      page.getByText("Add the cooking steps in the order they should happen."),
+    ).toBeVisible();
+  },
+);
+
+Then(
+  "ingredient names in the recipe editor should appear in this order:",
+  async (
+    { page },
+    dataTable: { hashes: () => Array<Record<string, string>> },
+  ) => {
+    for (const [index, { name }] of dataTable.hashes().entries()) {
+      await expect(
+        page
+          .getByLabel("Ingredients")
+          .getByRole("row", { name: /^Ingredient / })
+          .nth(index),
+      ).toHaveAccessibleName(`Ingredient ${name}`);
+    }
+  },
+);
+
+Then(
+  "cooking steps in the recipe editor should appear in this order:",
+  async (
+    { page },
+    dataTable: { hashes: () => Array<Record<string, string>> },
+  ) => {
+    for (const [index, { step }] of dataTable.hashes().entries()) {
+      await expect(
+        page.getByLabel("Steps").getByRole("listitem").nth(index),
+      ).toContainText(step);
+    }
+  },
+);
 
 Then(
   "no Hooks error should have occurred during navigation",
@@ -210,12 +329,14 @@ async function addIngredient(
   page: import("@playwright/test").Page,
   ingredient: { name: string; quantity: string; unit: string; note?: string },
 ) {
-  await page.getByRole("button", { name: "Add ingredient" }).click();
-  const row = page.locator('[aria-label="Ingredient"]').last();
+  const row = page
+    .getByLabel("Ingredients")
+    .getByRole("row", { name: "New ingredient" });
   await row.getByLabel("Name").fill(ingredient.name);
   await row.getByLabel("Quantity").fill(ingredient.quantity);
   await row.getByLabel("Unit").fill(ingredient.unit);
   if (ingredient.note) await row.getByLabel("Note").fill(ingredient.note);
+  await row.getByRole("button", { name: "Add ingredient" }).click();
 }
 
 async function createRecipe(

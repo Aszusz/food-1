@@ -97,7 +97,6 @@ function WorkspaceNavigation() {
     >
       <Link
         to="/recipes"
-        activeOptions={{ exact: true }}
         activeProps={{ "aria-current": "page" }}
         className="workspace-nav-link rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
       >
