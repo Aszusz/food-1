@@ -1,2 +1,2 @@
 export * from "./schema/auth";
-export * from "./schema/todos";
+export * from "./schema/household";

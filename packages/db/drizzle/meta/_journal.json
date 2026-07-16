@@ -8,6 +8,20 @@
       "when": 1783286922231,
       "tag": "0000_nosy_nocturne",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1784215975324,
+      "tag": "0001_lying_lady_deathstrike",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1784216000000,
+      "tag": "0002_remove_starter_table",
+      "breakpoints": true
     }
   ]
 }

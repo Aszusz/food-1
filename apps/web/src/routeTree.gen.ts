@@ -14,7 +14,8 @@ import { Route as ProtectedRouteImport } from './routes/_protected'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PublicSignupRouteImport } from './routes/_public/signup'
 import { Route as PublicLoginRouteImport } from './routes/_public/login'
-import { Route as ProtectedTodosRouteImport } from './routes/_protected/todos'
+import { Route as ProtectedRecipesRouteImport } from './routes/_protected/recipes'
+import { Route as ProtectedHouseholdCreateRouteImport } from './routes/_protected/household/create'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -39,46 +40,56 @@ const PublicLoginRoute = PublicLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => PublicRoute,
 } as any)
-const ProtectedTodosRoute = ProtectedTodosRouteImport.update({
-  id: '/todos',
-  path: '/todos',
+const ProtectedRecipesRoute = ProtectedRecipesRouteImport.update({
+  id: '/recipes',
+  path: '/recipes',
   getParentRoute: () => ProtectedRoute,
 } as any)
+const ProtectedHouseholdCreateRoute =
+  ProtectedHouseholdCreateRouteImport.update({
+    id: '/household/create',
+    path: '/household/create',
+    getParentRoute: () => ProtectedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/todos': typeof ProtectedTodosRoute
+  '/recipes': typeof ProtectedRecipesRoute
   '/login': typeof PublicLoginRoute
   '/signup': typeof PublicSignupRoute
+  '/household/create': typeof ProtectedHouseholdCreateRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/todos': typeof ProtectedTodosRoute
+  '/recipes': typeof ProtectedRecipesRoute
   '/login': typeof PublicLoginRoute
   '/signup': typeof PublicSignupRoute
+  '/household/create': typeof ProtectedHouseholdCreateRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_protected': typeof ProtectedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
-  '/_protected/todos': typeof ProtectedTodosRoute
+  '/_protected/recipes': typeof ProtectedRecipesRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/signup': typeof PublicSignupRoute
+  '/_protected/household/create': typeof ProtectedHouseholdCreateRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/todos' | '/login' | '/signup'
+  fullPaths: '/' | '/recipes' | '/login' | '/signup' | '/household/create'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/todos' | '/login' | '/signup'
+  to: '/' | '/recipes' | '/login' | '/signup' | '/household/create'
   id:
     | '__root__'
     | '/'
     | '/_protected'
     | '/_public'
-    | '/_protected/todos'
+    | '/_protected/recipes'
     | '/_public/login'
     | '/_public/signup'
+    | '/_protected/household/create'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -124,22 +135,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLoginRouteImport
       parentRoute: typeof PublicRoute
     }
-    '/_protected/todos': {
-      id: '/_protected/todos'
-      path: '/todos'
-      fullPath: '/todos'
-      preLoaderRoute: typeof ProtectedTodosRouteImport
+    '/_protected/recipes': {
+      id: '/_protected/recipes'
+      path: '/recipes'
+      fullPath: '/recipes'
+      preLoaderRoute: typeof ProtectedRecipesRouteImport
+      parentRoute: typeof ProtectedRoute
+    }
+    '/_protected/household/create': {
+      id: '/_protected/household/create'
+      path: '/household/create'
+      fullPath: '/household/create'
+      preLoaderRoute: typeof ProtectedHouseholdCreateRouteImport
       parentRoute: typeof ProtectedRoute
     }
   }
 }
 
 interface ProtectedRouteChildren {
-  ProtectedTodosRoute: typeof ProtectedTodosRoute
+  ProtectedRecipesRoute: typeof ProtectedRecipesRoute
+  ProtectedHouseholdCreateRoute: typeof ProtectedHouseholdCreateRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
-  ProtectedTodosRoute: ProtectedTodosRoute,
+  ProtectedRecipesRoute: ProtectedRecipesRoute,
+  ProtectedHouseholdCreateRoute: ProtectedHouseholdCreateRoute,
 }
 
 const ProtectedRouteWithChildren = ProtectedRoute._addFileChildren(

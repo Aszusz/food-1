@@ -29,7 +29,7 @@ function SignupPage() {
       setError(result.error.message ?? "Could not sign up");
       return;
     }
-    window.location.href = "/todos?filter=all";
+    window.location.href = "/household/create";
   }
 
   return (

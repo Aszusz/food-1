@@ -1,6 +1,8 @@
+import { householdRouter } from "./household";
 import { os } from "./orpc";
-import { todosRouter } from "./todos";
+import { recipesRouter } from "./recipes";
 
 export const router = os.router({
-  todos: todosRouter,
+  household: householdRouter,
+  recipes: recipesRouter,
 });

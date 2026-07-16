@@ -3,12 +3,12 @@ Feature: Auth
   Scenario: Sign up
     Given I am signed out
     When I sign up as "alice@example.com"
-    Then I should be viewing the todo app
+    Then I should be viewing Create Household
 
   Scenario: Log in
     Given I have an account for "alice@example.com"
     When I log in as "alice@example.com"
-    Then I should be viewing the todo app
+    Then I should be viewing Create Household
 
   Scenario: Invalid credentials
     Given I have an account for "alice@example.com"
@@ -18,14 +18,14 @@ Feature: Auth
   Scenario: Authenticated users skip login
     Given I am signed in as "alice@example.com"
     When I visit the login page
-    Then I should be viewing the todo app
+    Then I should be viewing Create Household
 
   Scenario: Authenticated users skip signup
     Given I am signed in as "alice@example.com"
     When I visit the signup page
-    Then I should be viewing the todo app
+    Then I should be viewing Create Household
 
   Scenario: Anonymous users cannot access protected routes
     Given I am signed out
-    When I visit the protected todos page
+    When I visit the protected recipes page
     Then I should be viewing the login page

@@ -22,7 +22,7 @@ Given("I have an account for {string}", async ({ page }, email: string) => {
   await signOut(page);
 });
 
-When("I visit the todo app", async ({ page }) => {
+When("I visit the recipes workspace", async ({ page }) => {
   await page.goto("/");
 });
 
@@ -34,8 +34,8 @@ When("I visit the signup page", async ({ page }) => {
   await page.goto("/signup");
 });
 
-When("I visit the protected todos page", async ({ page }) => {
-  await page.goto("/todos?filter=all");
+When("I visit the protected recipes page", async ({ page }) => {
+  await page.goto("/recipes");
 });
 
 When("I sign out", async ({ page }) => {
@@ -65,8 +65,10 @@ When(
   },
 );
 
-Then("I should be viewing the todo app", async ({ page }) => {
-  await expect(page.getByRole("heading", { name: "Todos" })).toBeVisible();
+Then("I should be viewing Create Household", async ({ page }) => {
+  await expect(
+    page.getByRole("heading", { name: "Create your household" }),
+  ).toBeVisible();
 });
 
 Then("I should be viewing the login page", async ({ page }) => {
@@ -82,7 +84,9 @@ async function signIn(page: import("@playwright/test").Page, email: string) {
   await page.getByLabel("Email").fill(email);
   await page.getByLabel("Password").fill(password);
   await page.getByRole("button", { name: "Log in" }).click();
-  await expect(page.getByRole("heading", { name: "Todos" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Create your household" }),
+  ).toBeVisible();
 }
 
 async function signUp(page: import("@playwright/test").Page, email: string) {
@@ -90,7 +94,9 @@ async function signUp(page: import("@playwright/test").Page, email: string) {
   await page.getByLabel("Email").fill(email);
   await page.getByLabel("Password").fill(password);
   await page.getByRole("button", { name: "Sign up" }).click();
-  await expect(page.getByRole("heading", { name: "Todos" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Create your household" }),
+  ).toBeVisible();
 }
 
 async function signOut(page: import("@playwright/test").Page) {

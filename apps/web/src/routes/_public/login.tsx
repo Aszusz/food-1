@@ -26,7 +26,7 @@ function LoginPage() {
       setError("Invalid credentials");
       return;
     }
-    window.location.href = "/todos?filter=all";
+    window.location.href = "/recipes";
   }
 
   return (
