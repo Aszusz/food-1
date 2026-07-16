@@ -27,7 +27,9 @@ function ProtectedLayout() {
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   });
-  const isWorkspace = ["/recipes", "/shopping", "/settings"].includes(pathname);
+  const isWorkspace = ["/recipes", "/shopping", "/settings"].some(
+    (path) => pathname === path || pathname.startsWith(`${path}/`),
+  );
   const { data: household } = useQuery({
     queryKey: ["household"],
     queryFn: () => orpc.household.current(),

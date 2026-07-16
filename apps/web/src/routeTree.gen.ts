@@ -19,7 +19,10 @@ import { Route as ProtectedShoppingRouteImport } from './routes/_protected/shopp
 import { Route as ProtectedSettingsRouteImport } from './routes/_protected/settings'
 import { Route as ProtectedRecipesRouteImport } from './routes/_protected/recipes'
 import { Route as ProtectedSettingsHouseholdRouteImport } from './routes/_protected/settings/household'
+import { Route as ProtectedRecipesNewRouteImport } from './routes/_protected/recipes/new'
+import { Route as ProtectedRecipesRecipeIdRouteImport } from './routes/_protected/recipes/$recipeId'
 import { Route as ProtectedHouseholdCreateRouteImport } from './routes/_protected/household/create'
+import { Route as ProtectedRecipesRecipeIdEditRouteImport } from './routes/_protected/recipes/$recipeId/edit'
 
 const PublicRoute = PublicRouteImport.update({
   id: '/_public',
@@ -70,48 +73,74 @@ const ProtectedSettingsHouseholdRoute =
     path: '/household',
     getParentRoute: () => ProtectedSettingsRoute,
   } as any)
+const ProtectedRecipesNewRoute = ProtectedRecipesNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => ProtectedRecipesRoute,
+} as any)
+const ProtectedRecipesRecipeIdRoute =
+  ProtectedRecipesRecipeIdRouteImport.update({
+    id: '/$recipeId',
+    path: '/$recipeId',
+    getParentRoute: () => ProtectedRecipesRoute,
+  } as any)
 const ProtectedHouseholdCreateRoute =
   ProtectedHouseholdCreateRouteImport.update({
     id: '/household/create',
     path: '/household/create',
     getParentRoute: () => ProtectedRoute,
   } as any)
+const ProtectedRecipesRecipeIdEditRoute =
+  ProtectedRecipesRecipeIdEditRouteImport.update({
+    id: '/edit',
+    path: '/edit',
+    getParentRoute: () => ProtectedRecipesRecipeIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/recipes': typeof ProtectedRecipesRoute
+  '/recipes': typeof ProtectedRecipesRouteWithChildren
   '/settings': typeof ProtectedSettingsRouteWithChildren
   '/shopping': typeof ProtectedShoppingRoute
   '/login': typeof PublicLoginRoute
   '/signup': typeof PublicSignupRoute
   '/invite/$token': typeof InviteTokenRoute
   '/household/create': typeof ProtectedHouseholdCreateRoute
+  '/recipes/$recipeId': typeof ProtectedRecipesRecipeIdRouteWithChildren
+  '/recipes/new': typeof ProtectedRecipesNewRoute
   '/settings/household': typeof ProtectedSettingsHouseholdRoute
+  '/recipes/$recipeId/edit': typeof ProtectedRecipesRecipeIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/recipes': typeof ProtectedRecipesRoute
+  '/recipes': typeof ProtectedRecipesRouteWithChildren
   '/settings': typeof ProtectedSettingsRouteWithChildren
   '/shopping': typeof ProtectedShoppingRoute
   '/login': typeof PublicLoginRoute
   '/signup': typeof PublicSignupRoute
   '/invite/$token': typeof InviteTokenRoute
   '/household/create': typeof ProtectedHouseholdCreateRoute
+  '/recipes/$recipeId': typeof ProtectedRecipesRecipeIdRouteWithChildren
+  '/recipes/new': typeof ProtectedRecipesNewRoute
   '/settings/household': typeof ProtectedSettingsHouseholdRoute
+  '/recipes/$recipeId/edit': typeof ProtectedRecipesRecipeIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_protected': typeof ProtectedRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
-  '/_protected/recipes': typeof ProtectedRecipesRoute
+  '/_protected/recipes': typeof ProtectedRecipesRouteWithChildren
   '/_protected/settings': typeof ProtectedSettingsRouteWithChildren
   '/_protected/shopping': typeof ProtectedShoppingRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/signup': typeof PublicSignupRoute
   '/invite/$token': typeof InviteTokenRoute
   '/_protected/household/create': typeof ProtectedHouseholdCreateRoute
+  '/_protected/recipes/$recipeId': typeof ProtectedRecipesRecipeIdRouteWithChildren
+  '/_protected/recipes/new': typeof ProtectedRecipesNewRoute
   '/_protected/settings/household': typeof ProtectedSettingsHouseholdRoute
+  '/_protected/recipes/$recipeId/edit': typeof ProtectedRecipesRecipeIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -124,7 +153,10 @@ export interface FileRouteTypes {
     | '/signup'
     | '/invite/$token'
     | '/household/create'
+    | '/recipes/$recipeId'
+    | '/recipes/new'
     | '/settings/household'
+    | '/recipes/$recipeId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -135,7 +167,10 @@ export interface FileRouteTypes {
     | '/signup'
     | '/invite/$token'
     | '/household/create'
+    | '/recipes/$recipeId'
+    | '/recipes/new'
     | '/settings/household'
+    | '/recipes/$recipeId/edit'
   id:
     | '__root__'
     | '/'
@@ -148,7 +183,10 @@ export interface FileRouteTypes {
     | '/_public/signup'
     | '/invite/$token'
     | '/_protected/household/create'
+    | '/_protected/recipes/$recipeId'
+    | '/_protected/recipes/new'
     | '/_protected/settings/household'
+    | '/_protected/recipes/$recipeId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -230,6 +268,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedSettingsHouseholdRouteImport
       parentRoute: typeof ProtectedSettingsRoute
     }
+    '/_protected/recipes/new': {
+      id: '/_protected/recipes/new'
+      path: '/new'
+      fullPath: '/recipes/new'
+      preLoaderRoute: typeof ProtectedRecipesNewRouteImport
+      parentRoute: typeof ProtectedRecipesRoute
+    }
+    '/_protected/recipes/$recipeId': {
+      id: '/_protected/recipes/$recipeId'
+      path: '/$recipeId'
+      fullPath: '/recipes/$recipeId'
+      preLoaderRoute: typeof ProtectedRecipesRecipeIdRouteImport
+      parentRoute: typeof ProtectedRecipesRoute
+    }
     '/_protected/household/create': {
       id: '/_protected/household/create'
       path: '/household/create'
@@ -237,8 +289,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedHouseholdCreateRouteImport
       parentRoute: typeof ProtectedRoute
     }
+    '/_protected/recipes/$recipeId/edit': {
+      id: '/_protected/recipes/$recipeId/edit'
+      path: '/edit'
+      fullPath: '/recipes/$recipeId/edit'
+      preLoaderRoute: typeof ProtectedRecipesRecipeIdEditRouteImport
+      parentRoute: typeof ProtectedRecipesRecipeIdRoute
+    }
   }
 }
+
+interface ProtectedRecipesRecipeIdRouteChildren {
+  ProtectedRecipesRecipeIdEditRoute: typeof ProtectedRecipesRecipeIdEditRoute
+}
+
+const ProtectedRecipesRecipeIdRouteChildren: ProtectedRecipesRecipeIdRouteChildren =
+  {
+    ProtectedRecipesRecipeIdEditRoute: ProtectedRecipesRecipeIdEditRoute,
+  }
+
+const ProtectedRecipesRecipeIdRouteWithChildren =
+  ProtectedRecipesRecipeIdRoute._addFileChildren(
+    ProtectedRecipesRecipeIdRouteChildren,
+  )
+
+interface ProtectedRecipesRouteChildren {
+  ProtectedRecipesRecipeIdRoute: typeof ProtectedRecipesRecipeIdRouteWithChildren
+  ProtectedRecipesNewRoute: typeof ProtectedRecipesNewRoute
+}
+
+const ProtectedRecipesRouteChildren: ProtectedRecipesRouteChildren = {
+  ProtectedRecipesRecipeIdRoute: ProtectedRecipesRecipeIdRouteWithChildren,
+  ProtectedRecipesNewRoute: ProtectedRecipesNewRoute,
+}
+
+const ProtectedRecipesRouteWithChildren =
+  ProtectedRecipesRoute._addFileChildren(ProtectedRecipesRouteChildren)
 
 interface ProtectedSettingsRouteChildren {
   ProtectedSettingsHouseholdRoute: typeof ProtectedSettingsHouseholdRoute
@@ -252,14 +338,14 @@ const ProtectedSettingsRouteWithChildren =
   ProtectedSettingsRoute._addFileChildren(ProtectedSettingsRouteChildren)
 
 interface ProtectedRouteChildren {
-  ProtectedRecipesRoute: typeof ProtectedRecipesRoute
+  ProtectedRecipesRoute: typeof ProtectedRecipesRouteWithChildren
   ProtectedSettingsRoute: typeof ProtectedSettingsRouteWithChildren
   ProtectedShoppingRoute: typeof ProtectedShoppingRoute
   ProtectedHouseholdCreateRoute: typeof ProtectedHouseholdCreateRoute
 }
 
 const ProtectedRouteChildren: ProtectedRouteChildren = {
-  ProtectedRecipesRoute: ProtectedRecipesRoute,
+  ProtectedRecipesRoute: ProtectedRecipesRouteWithChildren,
   ProtectedSettingsRoute: ProtectedSettingsRouteWithChildren,
   ProtectedShoppingRoute: ProtectedShoppingRoute,
   ProtectedHouseholdCreateRoute: ProtectedHouseholdCreateRoute,

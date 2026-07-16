@@ -5,12 +5,17 @@ import {
   householdInvite,
   householdMember,
 } from "./schema/household";
+import { recipe, recipeIngredient, recipeStep } from "./schema/recipe";
 
 export { db } from "./client";
 export * from "./household";
+export * from "./recipes";
 export * as schema from "./schema";
 
 export async function resetDatabase() {
+  await db.delete(recipeIngredient);
+  await db.delete(recipeStep);
+  await db.delete(recipe);
   await db.delete(householdInvite);
   await db.delete(householdMember);
   await db.delete(household);

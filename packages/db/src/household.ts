@@ -61,12 +61,16 @@ export async function getInvite(token: string) {
 export async function acceptInvite(userId: string, token: string) {
   const invite = await getInvite(token);
   if (!invite) return null;
-  await db.insert(householdMember).values({
-    id: randomUUID(),
-    householdId: invite.householdId,
-    userId,
-  });
-  return { id: invite.householdId, name: invite.householdName };
+  await db
+    .insert(householdMember)
+    .values({
+      id: randomUUID(),
+      householdId: invite.householdId,
+      userId,
+    })
+    .onConflictDoNothing({ target: householdMember.userId });
+  const household = await getHousehold(userId);
+  return household?.id === invite.householdId ? household : null;
 }
 
 export async function leaveHousehold(userId: string) {
