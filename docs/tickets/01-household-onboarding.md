@@ -11,9 +11,9 @@ Remove the todo schema, contract, API, routes, UI, and todo-specific E2E scenari
 
 ## Acceptance Criteria
 
-- [ ] A newly signed-up user is sent to Create Household, not a todo page.
-- [ ] The user can name and create a household, then lands in the empty Recipes workspace.
-- [ ] A signed-in member who refreshes remains in their household workspace.
-- [ ] A signed-in account with no membership is redirected to household onboarding when visiting a workspace URL.
-- [ ] Anonymous users remain redirected to Log In when visiting a protected URL.
-- [ ] No todo route, UI, API contract, or database table remains in the application.
+- [x] A newly signed-up user is sent to Create Household, not a todo page.
+- [x] The user can name and create a household, then lands in the empty Recipes workspace.
+- [x] A signed-in member who refreshes remains in their household workspace.
+- [x] A signed-in account with no membership is redirected to household onboarding when visiting a workspace URL.
+- [x] Anonymous users remain redirected to Log In when visiting a protected URL.
+- [x] No todo route, UI, API contract, or database table remains in the application.
