@@ -21,3 +21,16 @@ export const householdMember = pgTable(
   },
   (table) => [unique().on(table.userId)],
 );
+
+export const householdInvite = pgTable(
+  "household_invite",
+  {
+    id: uuid("id").primaryKey(),
+    householdId: uuid("household_id")
+      .notNull()
+      .references(() => household.id, { onDelete: "cascade" }),
+    token: uuid("token").notNull(),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+  },
+  (table) => [unique().on(table.token)],
+);

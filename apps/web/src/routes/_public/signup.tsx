@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -16,6 +16,7 @@ function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const returnTo = new URLSearchParams(window.location.search).get("returnTo");
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -29,7 +30,9 @@ function SignupPage() {
       setError(result.error.message ?? "Could not sign up");
       return;
     }
-    window.location.href = "/household/create";
+    window.location.href = returnTo?.startsWith("/invite/")
+      ? returnTo
+      : "/household/create";
   }
 
   return (
@@ -59,15 +62,19 @@ function SignupPage() {
             <Button type="submit" className="mt-6 w-full rounded-xl">
               Sign up
             </Button>
-            <Link
-              to="/login"
+            <a
+              href={
+                returnTo?.startsWith("/invite/")
+                  ? `/login?returnTo=${encodeURIComponent(returnTo)}`
+                  : "/login"
+              }
               className={buttonVariants({
                 variant: "link",
                 className: "mt-4 h-auto w-full p-0 text-primary/75",
               })}
             >
               Already have an account? Log in
-            </Link>
+            </a>
           </form>
         </CardContent>
       </Card>
