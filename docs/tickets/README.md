@@ -4,7 +4,7 @@
 
 The repository is a Bun/Turborepo monorepo with a React/TanStack Router web app, a Hono/oRPC API, Drizzle/PostgreSQL persistence, Better Auth email/password authentication, and Playwright-BDD E2E tests. It currently implements a per-user todo application only.
 
-The existing authentication, typed contract, database migration, protected-route, UI primitive, CI, and E2E patterns should be reused. The todo schema, API, routes, UI, and todo-specific tests are starter functionality to replace, not cookbook functionality to extend.
+The existing authentication, typed contract, database migration, protected-route, UI primitive, CI, and E2E patterns should be reused. The starter schema, API, routes, UI, and tests are starter functionality to replace, not cookbook functionality to extend.
 
 ## Ticket Order
 

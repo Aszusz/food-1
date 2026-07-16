@@ -1,5 +1,5 @@
 {
-  "name": "@monobara/api",
+  "name": "@household-cookbook/api",
   "private": true,
   "type": "module",
   "exports": {
@@ -11,8 +11,8 @@
     "typecheck": "tsc -b"
   },
   "dependencies": {
-    "@monobara/contract": "workspace:*",
-    "@monobara/db": "workspace:*",
+    "@household-cookbook/contract": "workspace:*",
+    "@household-cookbook/db": "workspace:*",
     "@orpc/server": "latest",
     "better-auth": "latest",
     "hono": "latest"

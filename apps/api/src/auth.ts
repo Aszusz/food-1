@@ -1,4 +1,4 @@
-import { db, schema } from "@monobara/db";
+import { db, schema } from "@household-cookbook/db";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 

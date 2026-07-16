@@ -1,5 +1,5 @@
 {
-  "name": "@monobara/db",
+  "name": "@household-cookbook/db",
   "private": true,
   "type": "module",
   "exports": {
@@ -14,7 +14,7 @@
     "db:studio": "bun --env-file=../../.env drizzle-kit studio"
   },
   "dependencies": {
-    "@monobara/contract": "workspace:*",
+    "@household-cookbook/contract": "workspace:*",
     "drizzle-orm": "latest",
     "postgres": "latest"
   },

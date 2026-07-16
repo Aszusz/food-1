@@ -1,4 +1,4 @@
-import { resetDatabase } from "@monobara/db";
+import { resetDatabase } from "@household-cookbook/db";
 import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
 

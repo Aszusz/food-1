@@ -11,7 +11,7 @@ COPY packages/db/package.json packages/db/package.json
 RUN bun install --frozen-lockfile
 
 COPY . .
-RUN bun --filter @monobara/web build
+RUN bun --filter @household-cookbook/web build
 
 FROM nginx:1.27-alpine
 COPY apps/web/nginx.conf /etc/nginx/conf.d/default.conf

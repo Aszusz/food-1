@@ -1,5 +1,5 @@
 {
-  "name": "@monobara/web",
+  "name": "@household-cookbook/web",
   "private": true,
   "scripts": {
     "dev": "vite",
@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
-    "@monobara/contract": "workspace:*",
+    "@household-cookbook/contract": "workspace:*",
     "@orpc/client": "latest",
     "@orpc/contract": "latest",
     "@tailwindcss/vite": "latest",

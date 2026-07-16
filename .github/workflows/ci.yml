@@ -12,20 +12,20 @@ jobs:
       postgres:
         image: postgres:18-alpine
         env:
-          POSTGRES_USER: monobara
-          POSTGRES_PASSWORD: monobara
-          POSTGRES_DB: monobara
+          POSTGRES_USER: household_cookbook
+          POSTGRES_PASSWORD: household_cookbook
+          POSTGRES_DB: household_cookbook
         ports:
           - 5432:5432
         options: >-
-          --health-cmd "pg_isready -U monobara -d monobara"
+          --health-cmd "pg_isready -U household_cookbook -d household_cookbook"
           --health-interval 2s
           --health-timeout 5s
           --health-retries 10
 
     env:
       BETTER_AUTH_URL: http://localhost:3000
-      DATABASE_URL: postgres://monobara:monobara@localhost:5432/monobara
+      DATABASE_URL: postgres://household_cookbook:household_cookbook@localhost:5432/household_cookbook
       PORT: 3000
       VITE_API_URL: http://localhost:3000
       WEB_URL: http://localhost:5173

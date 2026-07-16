@@ -1,4 +1,4 @@
-import { contract } from "@monobara/contract";
+import { contract } from "@household-cookbook/contract";
 import { implement, ORPCError } from "@orpc/server";
 
 export const os = implement(contract);

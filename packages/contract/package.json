@@ -1,5 +1,5 @@
 {
-  "name": "@monobara/contract",
+  "name": "@household-cookbook/contract",
   "private": true,
   "type": "module",
   "exports": {

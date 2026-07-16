@@ -6,7 +6,7 @@ import {
   getInvite,
   getMembers,
   leaveHousehold,
-} from "@monobara/db";
+} from "@household-cookbook/db";
 import { ORPCError } from "@orpc/server";
 import { os, userId } from "./orpc";
 

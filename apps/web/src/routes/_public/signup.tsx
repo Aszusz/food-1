@@ -40,7 +40,7 @@ function SignupPage() {
       <Card className="mx-auto max-w-sm rounded-3xl border-white/10 bg-card shadow-2xl">
         <CardHeader className="gap-2 text-center">
           <CardTitle className="text-4xl font-black tracking-tight text-white">
-            Monobara
+            Household Cookbook
           </CardTitle>
           <h2 className="text-sm font-medium uppercase tracking-[0.28em] text-primary/50">
             Sign Up

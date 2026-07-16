@@ -1,6 +1,6 @@
 services:
   web:
-    image: ${WEB_IMAGE:-ghcr.io/aszusz/monobara-codex-web:${TAG:-latest}}
+    image: ${WEB_IMAGE:-ghcr.io/aszusz/household-cookbook-web:${TAG:-latest}}
     build:
       context: .
       dockerfile: apps/web/Dockerfile
@@ -12,7 +12,7 @@ services:
       - api
 
   api:
-    image: ${API_IMAGE:-ghcr.io/aszusz/monobara-codex-api:${TAG:-latest}}
+    image: ${API_IMAGE:-ghcr.io/aszusz/household-cookbook-api:${TAG:-latest}}
     build:
       context: .
       dockerfile: apps/api/Dockerfile
@@ -21,7 +21,7 @@ services:
     environment:
       PORT: 3000
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET is required}
-      DATABASE_URL: postgres://${POSTGRES_USER:-monobara}:${POSTGRES_PASSWORD:-monobara}@postgres:5432/${POSTGRES_DB:-monobara}
+      DATABASE_URL: postgres://${POSTGRES_USER:-household_cookbook}:${POSTGRES_PASSWORD:-household_cookbook}@postgres:5432/${POSTGRES_DB:-household_cookbook}
       BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
       WEB_URL: ${WEB_URL:-http://localhost:5173}
     depends_on:
@@ -31,13 +31,13 @@ services:
         condition: service_completed_successfully
 
   migrate:
-    image: ${API_IMAGE:-ghcr.io/aszusz/monobara-codex-api:${TAG:-latest}}
+    image: ${API_IMAGE:-ghcr.io/aszusz/household-cookbook-api:${TAG:-latest}}
     build:
       context: .
       dockerfile: apps/api/Dockerfile
     command: ["bun", "--cwd", "packages/db", "drizzle-kit", "migrate"]
     environment:
-      DATABASE_URL: postgres://${POSTGRES_USER:-monobara}:${POSTGRES_PASSWORD:-monobara}@postgres:5432/${POSTGRES_DB:-monobara}
+      DATABASE_URL: postgres://${POSTGRES_USER:-household_cookbook}:${POSTGRES_PASSWORD:-household_cookbook}@postgres:5432/${POSTGRES_DB:-household_cookbook}
     depends_on:
       postgres:
         condition: service_healthy
@@ -47,16 +47,16 @@ services:
     ports:
       - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-monobara}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-monobara}
-      POSTGRES_DB: ${POSTGRES_DB:-monobara}
+      POSTGRES_USER: ${POSTGRES_USER:-household_cookbook}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-household_cookbook}
+      POSTGRES_DB: ${POSTGRES_DB:-household_cookbook}
     volumes:
       - postgres-18-data:/var/lib/postgresql
     healthcheck:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U ${POSTGRES_USER:-monobara} -d ${POSTGRES_DB:-monobara}",
+            "pg_isready -U ${POSTGRES_USER:-household_cookbook} -d ${POSTGRES_DB:-household_cookbook}",
         ]
       interval: 2s
       timeout: 5s

@@ -1,4 +1,4 @@
-import type { AppRouter } from "@monobara/contract";
+import type { AppRouter } from "@household-cookbook/contract";
 import { createORPCClient } from "@orpc/client";
 import { RPCLink } from "@orpc/client/fetch";
 import type { ContractRouterClient } from "@orpc/contract";
