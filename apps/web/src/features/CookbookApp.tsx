@@ -50,7 +50,7 @@ export function CookbookApp() {
         <span className="brand-mark">
           <ChefHat />
         </span>
-        <p>Opening your kitchen notebook...</p>
+        <p>Otwieramy twój zeszyt kuchenny...</p>
       </main>
     );
   }
@@ -88,7 +88,7 @@ export function CookbookApp() {
             type="button"
             className="icon-button mobile-menu"
             onClick={() => setMenuOpen(true)}
-            aria-label="Open menu"
+            aria-label="Otwórz menu"
           >
             <Menu />
           </button>
@@ -96,7 +96,7 @@ export function CookbookApp() {
             <span className="brand-mark small">
               <ChefHat />
             </span>{" "}
-            Household
+            Domowa książka kucharska
           </div>
           {view === "recipes" || view === "favorites" ? (
             <label className="search-box">
@@ -104,8 +104,8 @@ export function CookbookApp() {
               <input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search your recipes"
-                aria-label="Search recipes"
+                placeholder="Szukaj w przepisach"
+                aria-label="Szukaj przepisów"
               />
               <kbd>⌘ K</kbd>
             </label>
@@ -114,7 +114,7 @@ export function CookbookApp() {
           )}
           <div
             className="member-stack"
-            title={`${household.members.length} household members`}
+            title={memberCountLabel(household.members.length)}
           >
             {household.members.slice(0, 3).map((member) => (
               <span key={member.id} title={member.name}>
@@ -144,28 +144,28 @@ export function CookbookApp() {
         {view === "settings" ? <SettingsView cookbook={cookbook} /> : null}
       </main>
 
-      <nav className="mobile-nav" aria-label="Main navigation">
+      <nav className="mobile-nav" aria-label="Główna nawigacja">
         <NavButton
           icon={<BookOpen />}
-          label="Recipes"
+          label="Przepisy"
           active={view === "recipes"}
           onClick={() => navigate("recipes")}
         />
         <NavButton
           icon={<Heart />}
-          label="Favorites"
+          label="Ulubione"
           active={view === "favorites"}
           onClick={() => navigate("favorites")}
         />
         <NavButton
           icon={<ShoppingBasket />}
-          label="List"
+          label="Lista"
           active={view === "shopping"}
           onClick={() => navigate("shopping")}
         />
         <NavButton
           icon={<Settings />}
-          label="Settings"
+          label="Ustawienia"
           active={view === "settings"}
           onClick={() => navigate("settings")}
         />
@@ -230,7 +230,7 @@ function Sidebar({
           type="button"
           className="sidebar-scrim"
           onClick={onClose}
-          aria-label="Close menu"
+          aria-label="Zamknij menu"
         />
       ) : null}
       <aside className={`sidebar ${open ? "open" : ""}`}>
@@ -238,7 +238,7 @@ function Sidebar({
           type="button"
           className="icon-button sidebar-close"
           onClick={onClose}
-          aria-label="Close menu"
+          aria-label="Zamknij menu"
         >
           <X />
         </button>
@@ -247,26 +247,26 @@ function Sidebar({
             <ChefHat />
           </span>
           <div>
-            <strong>Household</strong>
-            <span className="brand-subtitle">Cookbook</span>
+            <strong>Domowa</strong>
+            <span className="brand-subtitle">książka kucharska</span>
           </div>
         </div>
-        <nav className="side-nav" aria-label="Main navigation">
+        <nav className="side-nav" aria-label="Główna nawigacja">
           <NavButton
             icon={<BookOpen />}
-            label="All recipes"
+            label="Wszystkie przepisy"
             active={view === "recipes"}
             onClick={() => onNavigate("recipes")}
           />
           <NavButton
             icon={<Heart />}
-            label="Favorites"
+            label="Ulubione"
             active={view === "favorites"}
             onClick={() => onNavigate("favorites")}
           />
           <NavButton
             icon={<ShoppingBasket />}
-            label="Shopping list"
+            label="Lista zakupów"
             active={view === "shopping"}
             onClick={() => onNavigate("shopping")}
             badge={shoppingCount || undefined}
@@ -279,15 +279,13 @@ function Sidebar({
             onClick={() => onNavigate("settings")}
           >
             <Settings />
-            <span>Household settings</span>
+            <span>Ustawienia domowników</span>
           </button>
           <div className="household-card">
             <span className="avatar clay">{initials(householdName)}</span>
             <div>
               <strong>{householdName}</strong>
-              <span>
-                {memberCount} {memberCount === 1 ? "member" : "members"}
-              </span>
+              <span>{memberCountLabel(memberCount)}</span>
             </div>
             <ChevronRight />
           </div>
@@ -348,17 +346,17 @@ function RecipesView({
           <p className="eyebrow">{today()}</p>
           <h1>
             {favoritesOnly
-              ? "Household favorites"
-              : `Welcome to ${householdName}`}
+              ? "Ulubione domowników"
+              : `Witaj w grupie: ${householdName}`}
           </h1>
           <p>
             {favoritesOnly
-              ? "The recipes everyone comes back to."
-              : "What are we making together today?"}
+              ? "Przepisy, do których wszyscy chętnie wracają."
+              : "Co dziś wspólnie ugotujemy?"}
           </p>
         </div>
         <button type="button" className="primary-button" onClick={onCreate}>
-          <Plus /> New recipe
+          <Plus /> Nowy przepis
         </button>
       </div>
 
@@ -371,19 +369,19 @@ function RecipesView({
         >
           <div>
             <span className="feature-label">
-              <Heart /> Household favorite
+              <Heart /> Ulubiony przepis domowników
             </span>
             <h2>{featured.title}</h2>
             <p>
               {featured.description ||
-                "A recipe worth gathering around the table for."}
+                "Przepis, dla którego warto zebrać się przy wspólnym stole."}
             </p>
             <div className="recipe-meta light">
               <span>
                 <Clock3 /> {featured.prepMinutes + featured.cookMinutes} min
               </span>
               <span>
-                <Users /> Serves {featured.servings}
+                <Users /> {servingsLabel(featured.servings)}
               </span>
             </div>
             <button
@@ -391,7 +389,7 @@ function RecipesView({
               className="cream-button"
               onClick={() => onOpen(featured)}
             >
-              View recipe <ChevronRight />
+              Zobacz przepis <ChevronRight />
             </button>
           </div>
         </section>
@@ -400,10 +398,8 @@ function RecipesView({
       <section className="section-block">
         <div className="section-heading">
           <div>
-            <h2>{favoritesOnly ? "Saved favorites" : "Your recipes"}</h2>
-            <p>
-              {recipes.length} {recipes.length === 1 ? "recipe" : "recipes"}
-            </p>
+            <h2>{favoritesOnly ? "Zapisane ulubione" : "Twoje przepisy"}</h2>
+            <p>{recipeCountLabel(recipes.length)}</p>
           </div>
         </div>
         {recipes.length ? (
@@ -424,13 +420,13 @@ function RecipesView({
             </span>
             <h2>
               {favoritesOnly && allRecipes.length
-                ? "No favorites yet"
-                : "Your cookbook starts here"}
+                ? "Brak ulubionych przepisów"
+                : "Tutaj zaczyna się Twoja książka kucharska"}
             </h2>
             <p>
               {favoritesOnly && allRecipes.length
-                ? "Tap the heart on a recipe to keep it close."
-                : "Add the first recipe your household loves to cook."}
+                ? "Dotknij serca przy przepisie, aby dodać go do ulubionych."
+                : "Dodaj pierwszy przepis, który lubią gotować twoi domownicy."}
             </p>
             {!favoritesOnly || !allRecipes.length ? (
               <button
@@ -438,7 +434,7 @@ function RecipesView({
                 className="primary-button"
                 onClick={onCreate}
               >
-                <Plus /> Add a recipe
+                <Plus /> Dodaj przepis
               </button>
             ) : null}
           </div>
@@ -464,14 +460,14 @@ function RecipeCard({
         className="recipe-image"
         onClick={onOpen}
         style={{ backgroundImage: `url(${imageFor(recipe)})` }}
-        aria-label={`Open ${recipe.title}`}
+        aria-label={`Otwórz przepis ${recipe.title}`}
       />
       <button
         type="button"
         className={`favorite-button ${recipe.favorite ? "saved" : ""}`}
         onClick={onFavorite}
         aria-label={
-          recipe.favorite ? "Remove from favorites" : "Add to favorites"
+          recipe.favorite ? "Usuń z ulubionych" : "Dodaj do ulubionych"
         }
       >
         <Heart />
@@ -479,7 +475,8 @@ function RecipeCard({
       <button type="button" className="recipe-card-body" onClick={onOpen}>
         <h3>{recipe.title}</h3>
         <p>
-          {recipe.description || `${recipe.ingredients.length} ingredients`}
+          {recipe.description ||
+            ingredientCountLabel(recipe.ingredients.length)}
         </p>
         <div className="recipe-meta">
           <span>
@@ -525,18 +522,18 @@ function ShoppingView({
     <div className="page shopping-page">
       <div className="page-heading">
         <div>
-          <p className="eyebrow">Shared with your household</p>
-          <h1>Shopping list</h1>
-          <p>Changes appear for everyone within a few seconds.</p>
+          <p className="eyebrow">Wspólna lista domowników</p>
+          <h1>Lista zakupów</h1>
+          <p>Zmiany będą widoczne dla wszystkich w ciągu kilku sekund.</p>
         </div>
         <div className="live-pill">
-          <i /> Live
+          <i /> Na żywo
         </div>
       </div>
       <section className="shopping-summary">
         <div>
           <span>
-            {purchased.length} of {items.length} collected
+            Zebrano {purchased.length} z {items.length}
           </span>
           <strong>{progress}%</strong>
         </div>
@@ -549,28 +546,28 @@ function ShoppingView({
         <input
           value={name}
           onChange={(event) => setName(event.target.value)}
-          placeholder="Add an item..."
-          aria-label="Item name"
+          placeholder="Dodaj produkt..."
+          aria-label="Nazwa produktu"
         />
         <input
           className="amount-input"
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
-          placeholder="Amount"
-          aria-label="Amount"
+          placeholder="Ilość"
+          aria-label="Ilość"
         />
-        <button type="submit">Add</button>
+        <button type="submit">Dodaj</button>
       </form>
       {items.length ? (
         <div className="shopping-groups">
           <ShoppingGroup
-            title="Still needed"
+            title="Do kupienia"
             items={active}
             cookbook={cookbook}
           />
           {purchased.length ? (
             <ShoppingGroup
-              title="In the basket"
+              title="W koszyku"
               items={purchased}
               cookbook={cookbook}
               purchased
@@ -582,7 +579,7 @@ function ShoppingView({
               className="text-button clear-button"
               onClick={() => cookbook.clearPurchased()}
             >
-              <Trash2 /> Clear purchased
+              <Trash2 /> Usuń kupione
             </button>
           ) : null}
         </div>
@@ -591,10 +588,10 @@ function ShoppingView({
           <span>
             <ShoppingBasket />
           </span>
-          <h2>The list is ready</h2>
-          <p>Add something above, or send ingredients from a recipe.</p>
+          <h2>Lista jest gotowa</h2>
+          <p>Dodaj produkt powyżej albo przenieś składniki z przepisu.</p>
           <button type="button" className="secondary-button" onClick={onBrowse}>
-            Browse recipes
+            Przeglądaj przepisy
           </button>
         </div>
       )}
@@ -627,16 +624,16 @@ function ShoppingGroup({
               type="button"
               className="check-button"
               onClick={() => cookbook.toggleShoppingItem(item.id)}
-              aria-label={`${item.done ? "Uncheck" : "Check"} ${item.name}`}
+              aria-label={`${item.done ? "Odznacz" : "Zaznacz"} ${item.name}`}
             >
               {item.done ? <Check /> : null}
             </button>
             <div>
               <strong>{item.name}</strong>
               {item.source ? (
-                <span>From {item.source}</span>
+                <span>Z przepisu {item.source}</span>
               ) : (
-                <span>Manually added</span>
+                <span>Dodano ręcznie</span>
               )}
             </div>
             <em>{item.amount}</em>
@@ -644,7 +641,7 @@ function ShoppingGroup({
               type="button"
               className="delete-button"
               onClick={() => cookbook.deleteShoppingItem(item.id)}
-              aria-label={`Remove ${item.name}`}
+              aria-label={`Usuń ${item.name}`}
             >
               <X />
             </button>
@@ -669,9 +666,9 @@ function SettingsView({ cookbook }: { cookbook: Cookbook }) {
     <div className="page settings-page">
       <div className="page-heading">
         <div>
-          <p className="eyebrow">One shared kitchen</p>
-          <h1>Household settings</h1>
-          <p>Invite the people you plan, shop, and cook with.</p>
+          <p className="eyebrow">Jedna wspólna kuchnia</p>
+          <h1>Ustawienia domowników</h1>
+          <p>Zaproś osoby, z którymi planujesz, robisz zakupy i gotujesz.</p>
         </div>
       </div>
       <div className="settings-grid">
@@ -679,18 +676,20 @@ function SettingsView({ cookbook }: { cookbook: Cookbook }) {
           <span className="settings-icon">
             <Users />
           </span>
-          <h2>Invite a household member</h2>
-          <p>They can use this code after creating their own account.</p>
+          <h2>Zaproś domownika</h2>
+          <p>
+            Zaproszona osoba może użyć tego kodu po utworzeniu własnego konta.
+          </p>
           <button type="button" className="invite-code" onClick={copyCode}>
             <strong>{inviteCode}</strong>
             <span>
               {copied ? (
                 <>
-                  <Check /> Copied
+                  <Check /> Skopiowano
                 </>
               ) : (
                 <>
-                  <Copy /> Copy code
+                  <Copy /> Kopiuj kod
                 </>
               )}
             </span>
@@ -700,10 +699,7 @@ function SettingsView({ cookbook }: { cookbook: Cookbook }) {
           <div className="settings-card-heading">
             <div>
               <h2>{household.name}</h2>
-              <p>
-                {household.members.length}{" "}
-                {household.members.length === 1 ? "member" : "members"}
-              </p>
+              <p>{memberCountLabel(household.members.length)}</p>
             </div>
             <span className="avatar clay">{initials(household.name)}</span>
           </div>
@@ -721,8 +717,8 @@ function SettingsView({ cookbook }: { cookbook: Cookbook }) {
         </section>
         <section className="settings-card signout-card">
           <div>
-            <h2>Your account</h2>
-            <p>Sign out safely on this device.</p>
+            <h2>Twoje konto</h2>
+            <p>Bezpiecznie wyloguj się na tym urządzeniu.</p>
           </div>
           <button
             type="button"
@@ -732,7 +728,7 @@ function SettingsView({ cookbook }: { cookbook: Cookbook }) {
               window.location.href = "/login";
             }}
           >
-            <LogOut /> Sign out
+            <LogOut /> Wyloguj się
           </button>
         </section>
       </div>
@@ -766,7 +762,7 @@ function RecipePanel({
         type="button"
         className="modal-scrim"
         onClick={onClose}
-        aria-label="Close recipe"
+        aria-label="Zamknij przepis"
       />
       <section className="recipe-panel" aria-label={recipe.title}>
         <div
@@ -779,7 +775,7 @@ function RecipePanel({
             type="button"
             className="round-button back"
             onClick={onClose}
-            aria-label="Close"
+            aria-label="Zamknij"
           >
             <ArrowLeft />
           </button>
@@ -787,7 +783,9 @@ function RecipePanel({
             type="button"
             className={`round-button panel-heart ${recipe.favorite ? "saved" : ""}`}
             onClick={() => cookbook.toggleFavorite(recipe.id)}
-            aria-label="Favorite"
+            aria-label={
+              recipe.favorite ? "Usuń z ulubionych" : "Dodaj do ulubionych"
+            }
           >
             <Heart />
           </button>
@@ -802,7 +800,7 @@ function RecipePanel({
               type="button"
               className="icon-button"
               onClick={() => onEdit(recipe)}
-              aria-label="Edit recipe"
+              aria-label="Edytuj przepis"
             >
               <Pencil />
             </button>
@@ -811,17 +809,17 @@ function RecipePanel({
             <span>
               <Clock3 />
               <strong>{recipe.prepMinutes + recipe.cookMinutes} min</strong>
-              <small>Total time</small>
+              <small>Łączny czas</small>
             </span>
             <span>
               <Users />
               <strong>{recipe.servings}</strong>
-              <small>Servings</small>
+              <small>Porcje</small>
             </span>
             <span>
               <BookOpen />
               <strong>{recipe.steps.length}</strong>
-              <small>Steps</small>
+              <small>Kroki</small>
             </span>
           </div>
           <div className="panel-actions">
@@ -830,7 +828,7 @@ function RecipePanel({
               className="primary-button"
               onClick={() => onCook(recipe)}
             >
-              <ChefHat /> Start cooking
+              <ChefHat /> Zacznij gotować
             </button>
             <button
               type="button"
@@ -839,11 +837,11 @@ function RecipePanel({
             >
               {added ? (
                 <>
-                  <Check /> Added to list
+                  <Check /> Dodano do listy
                 </>
               ) : (
                 <>
-                  <ShoppingBasket /> Add to list
+                  <ShoppingBasket /> Dodaj do listy
                 </>
               )}
             </button>
@@ -851,8 +849,8 @@ function RecipePanel({
           <section className="ingredient-section">
             <div className="section-heading">
               <div>
-                <h2>Ingredients</h2>
-                <p>Tap as you prep</p>
+                <h2>Składniki</h2>
+                <p>Odhaczaj podczas przygotowywania</p>
               </div>
             </div>
             <ul className="ingredient-list">
@@ -882,7 +880,7 @@ function RecipePanel({
             </ul>
           </section>
           <section className="method-section">
-            <h2>Method</h2>
+            <h2>Przygotowanie</h2>
             <ol>
               {recipe.steps.map((step, index) => (
                 <li key={step}>
@@ -896,13 +894,13 @@ function RecipePanel({
             type="button"
             className="danger-link"
             onClick={async () => {
-              if (window.confirm(`Delete ${recipe.title}?`)) {
+              if (window.confirm(`Usunąć przepis „${recipe.title}”?`)) {
                 await cookbook.deleteRecipe(recipe.id);
                 onClose();
               }
             }}
           >
-            <Trash2 /> Delete recipe
+            <Trash2 /> Usuń przepis
           </button>
         </div>
       </section>
@@ -950,7 +948,9 @@ function RecipeForm({
       .map((step) => step.trim())
       .filter(Boolean);
     if (!title.trim() || !parsedIngredients.length || !parsedSteps.length) {
-      setError("Add a title, at least one ingredient, and one cooking step.");
+      setError(
+        "Dodaj nazwę, co najmniej jeden składnik i jeden krok przygotowania.",
+      );
       return;
     }
     setSaving(true);
@@ -966,7 +966,7 @@ function RecipeForm({
         steps: parsedSteps,
       });
     } catch {
-      setError("The recipe could not be saved. Please try again.");
+      setError("Nie udało się zapisać przepisu. Spróbuj ponownie.");
       setSaving(false);
     }
   }
@@ -977,44 +977,44 @@ function RecipeForm({
         type="button"
         className="modal-scrim"
         onClick={onClose}
-        aria-label="Close form"
+        aria-label="Zamknij formularz"
       />
       <section className="recipe-form-panel">
         <header>
           <div>
-            <p className="eyebrow">Kitchen notebook</p>
-            <h1>{recipe ? "Edit recipe" : "New recipe"}</h1>
+            <p className="eyebrow">Zeszyt kuchenny</p>
+            <h1>{recipe ? "Edytuj przepis" : "Nowy przepis"}</h1>
           </div>
           <button
             type="button"
             className="icon-button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label="Zamknij"
           >
             <X />
           </button>
         </header>
         <form onSubmit={submit}>
           <label>
-            Recipe name
+            Nazwa przepisu
             <input
               value={title}
               onChange={(event) => setTitle(event.target.value)}
-              placeholder="e.g. Sunday tomato pasta"
+              placeholder="np. niedzielny makaron z pomidorami"
             />
           </label>
           <label>
-            A short note
+            Krótki opis
             <textarea
               value={description}
               onChange={(event) => setDescription(event.target.value)}
-              placeholder="What makes this recipe special?"
+              placeholder="Co wyróżnia ten przepis?"
               rows={2}
             />
           </label>
           <div className="form-row">
             <label>
-              Prep minutes
+              Przygotowanie (min)
               <input
                 type="number"
                 min="0"
@@ -1023,7 +1023,7 @@ function RecipeForm({
               />
             </label>
             <label>
-              Cook minutes
+              Gotowanie (min)
               <input
                 type="number"
                 min="0"
@@ -1032,7 +1032,7 @@ function RecipeForm({
               />
             </label>
             <label>
-              Servings
+              Liczba porcji
               <input
                 type="number"
                 min="1"
@@ -1042,21 +1042,23 @@ function RecipeForm({
             </label>
           </div>
           <label>
-            Ingredients <small>One per line: amount | ingredient</small>
+            Składniki <small>Jeden na wiersz: ilość | składnik</small>
             <textarea
               value={ingredients}
               onChange={(event) => setIngredients(event.target.value)}
-              placeholder={"2 cups | cherry tomatoes\n1 handful | fresh basil"}
+              placeholder={
+                "2 szklanki | pomidorki koktajlowe\n1 garść | świeża bazylia"
+              }
               rows={6}
             />
           </label>
           <label>
-            Cooking steps <small>One step per line</small>
+            Kroki przygotowania <small>Jeden krok na wiersz</small>
             <textarea
               value={steps}
               onChange={(event) => setSteps(event.target.value)}
               placeholder={
-                "Bring a large pot of salted water to a boil.\nCook the pasta until just tender."
+                "Zagotuj osoloną wodę w dużym garnku.\nUgotuj makaron al dente."
               }
               rows={7}
             />
@@ -1068,10 +1070,10 @@ function RecipeForm({
               className="secondary-button"
               onClick={onClose}
             >
-              Cancel
+              Anuluj
             </button>
             <button type="submit" className="primary-button" disabled={saving}>
-              {saving ? "Saving..." : "Save recipe"}
+              {saving ? "Zapisywanie..." : "Zapisz przepis"}
             </button>
           </div>
         </form>
@@ -1096,7 +1098,7 @@ function CookingMode({
           <X />
         </button>
         <div>
-          <span>Cooking</span>
+          <span>Gotowanie</span>
           <strong>{recipe.title}</strong>
         </div>
         <em>
@@ -1109,7 +1111,7 @@ function CookingMode({
             <i key={item} className={index <= step ? "active" : ""} />
           ))}
         </div>
-        <p className="eyebrow">Step {step + 1}</p>
+        <p className="eyebrow">Krok {step + 1}</p>
         <h1>{current}</h1>
         <div className="cooking-nav">
           <button
@@ -1118,11 +1120,11 @@ function CookingMode({
             disabled={step === 0}
             onClick={() => setStep(step - 1)}
           >
-            Previous
+            Wstecz
           </button>
           {step === recipe.steps.length - 1 ? (
             <button type="button" className="primary-button" onClick={onClose}>
-              <Check /> Finish cooking
+              <Check /> Zakończ gotowanie
             </button>
           ) : (
             <button
@@ -1130,7 +1132,7 @@ function CookingMode({
               className="primary-button"
               onClick={() => setStep(step + 1)}
             >
-              Next step <ChevronRight />
+              Następny krok <ChevronRight />
             </button>
           )}
         </div>
@@ -1155,8 +1157,8 @@ function Onboarding({ cookbook }: { cookbook: Cookbook }) {
     } catch {
       setError(
         mode === "join"
-          ? "That invite code was not found."
-          : "We could not create the household.",
+          ? "Nie znaleziono takiego kodu zaproszenia."
+          : "Nie udało się utworzyć grupy domowników.",
       );
       setSaving(false);
     }
@@ -1169,36 +1171,38 @@ function Onboarding({ cookbook }: { cookbook: Cookbook }) {
             <ChefHat />
           </span>
           <div>
-            <strong>Household</strong>
-            <span className="brand-subtitle">Cookbook</span>
+            <strong>Domowa</strong>
+            <span className="brand-subtitle">książka kucharska</span>
           </div>
         </div>
         <div>
-          <p className="eyebrow">Your shared kitchen notebook</p>
+          <p className="eyebrow">Wasz wspólny zeszyt kuchenny</p>
           <h1>
-            Plan. Shop.
+            Planuj. Kupuj.
             <br />
-            Cook together.
+            Gotujcie razem.
           </h1>
           <p>
-            Keep the recipes you love and the list you share in one calm, useful
-            place.
+            Przechowuj ulubione przepisy i wspólną listę zakupów w jednym,
+            wygodnym miejscu.
           </p>
         </div>
         <blockquote>
-          “Dinner works better when everyone knows what’s cooking.”
+          „Wspólne posiłki są prostsze, gdy każdy wie, co dziś gotujemy”.
         </blockquote>
       </section>
       <section className="onboarding-form">
         <div className="onboarding-card">
-          <p className="eyebrow">One last step</p>
+          <p className="eyebrow">Jeszcze tylko jeden krok</p>
           <h2>
-            {mode === "create" ? "Name your household" : "Join your household"}
+            {mode === "create"
+              ? "Nazwij swoją grupę"
+              : "Dołącz do swojej grupy"}
           </h2>
           <p>
             {mode === "create"
-              ? "This is the private space you’ll share with the people you cook with."
-              : "Enter the invite code shared by someone in your household."}
+              ? "To prywatna przestrzeń dla osób, z którymi wspólnie gotujesz."
+              : "Wpisz kod zaproszenia otrzymany od jednego z domowników."}
           </p>
           <div className="mode-switch">
             <button
@@ -1210,7 +1214,7 @@ function Onboarding({ cookbook }: { cookbook: Cookbook }) {
                 setError("");
               }}
             >
-              Create new
+              Nowa grupa
             </button>
             <button
               type="button"
@@ -1221,17 +1225,17 @@ function Onboarding({ cookbook }: { cookbook: Cookbook }) {
                 setError("");
               }}
             >
-              Use invite code
+              Użyj kodu zaproszenia
             </button>
           </div>
           <form onSubmit={submit}>
             <label>
-              {mode === "create" ? "Household name" : "Invite code"}
+              {mode === "create" ? "Nazwa grupy" : "Kod zaproszenia"}
               <input
                 value={value}
                 onChange={(event) => setValue(event.target.value)}
                 placeholder={
-                  mode === "create" ? "e.g. The Parkers" : "e.g. A1B2C3D4"
+                  mode === "create" ? "np. Rodzina Kowalskich" : "np. A1B2C3D4"
                 }
               />
             </label>
@@ -1242,10 +1246,10 @@ function Onboarding({ cookbook }: { cookbook: Cookbook }) {
               disabled={saving}
             >
               {saving
-                ? "Setting up..."
+                ? "Konfigurowanie..."
                 : mode === "create"
-                  ? "Create household"
-                  : "Join household"}
+                  ? "Utwórz grupę"
+                  : "Dołącz do grupy"}
               <ChevronRight />
             </button>
           </form>
@@ -1257,7 +1261,7 @@ function Onboarding({ cookbook }: { cookbook: Cookbook }) {
               window.location.href = "/login";
             }}
           >
-            Sign out
+            Wyloguj się
           </button>
         </div>
       </section>
@@ -1283,9 +1287,30 @@ function initials(value: string) {
 }
 
 function today() {
-  return new Intl.DateTimeFormat("en", {
+  return new Intl.DateTimeFormat("pl-PL", {
     weekday: "long",
     month: "long",
     day: "numeric",
   }).format(new Date());
+}
+
+function recipeCountLabel(count: number) {
+  return countLabel(count, "przepis", "przepisy", "przepisów");
+}
+
+function ingredientCountLabel(count: number) {
+  return countLabel(count, "składnik", "składniki", "składników");
+}
+
+function memberCountLabel(count: number) {
+  return countLabel(count, "domownik", "domowników", "domowników");
+}
+
+function servingsLabel(count: number) {
+  return countLabel(count, "porcja", "porcje", "porcji");
+}
+
+function countLabel(count: number, one: string, few: string, many: string) {
+  const form = new Intl.PluralRules("pl-PL").select(count);
+  return `${count} ${form === "one" ? one : form === "few" ? few : many}`;
 }

@@ -22,12 +22,12 @@ function LoginPage() {
     try {
       const result = await authClient.signIn.email({ email, password });
       if (result.error) {
-        setError("That email and password do not match.");
+        setError("Nieprawidłowy adres e-mail lub hasło.");
         return;
       }
       window.location.href = "/app";
     } catch {
-      setError("The server did not respond. Please try again.");
+      setError("Serwer nie odpowiada. Spróbuj ponownie.");
     } finally {
       setSubmitting(false);
     }
@@ -35,10 +35,10 @@ function LoginPage() {
 
   return (
     <AuthLayout>
-      <p className="eyebrow">Welcome back</p>
-      <h2>Come to the table</h2>
+      <p className="eyebrow">Witaj ponownie</p>
+      <h2>Zapraszamy do stołu</h2>
       <p className="auth-subtitle">
-        Sign in to see what your household is cooking.
+        Zaloguj się i sprawdź, co gotują twoi domownicy.
       </p>
       <form onSubmit={submit}>
         <AuthFields
@@ -53,11 +53,11 @@ function LoginPage() {
           type="submit"
           disabled={submitting}
         >
-          {submitting ? "Signing in..." : "Sign in"} <ChevronRight />
+          {submitting ? "Logowanie..." : "Zaloguj się"} <ChevronRight />
         </button>
       </form>
       <p className="auth-switch">
-        New to Household Cookbook? <Link to="/signup">Create an account</Link>
+        Nie masz jeszcze konta? <Link to="/signup">Utwórz konto</Link>
       </p>
     </AuthLayout>
   );
@@ -76,7 +76,7 @@ export function AuthFields({
 }) {
   return (
     <>
-      <label htmlFor="email">Email address</label>
+      <label htmlFor="email">Adres e-mail</label>
       <input
         id="email"
         type="email"
@@ -86,7 +86,7 @@ export function AuthFields({
         onChange={(event) => setEmail(event.target.value)}
         placeholder="you@example.com"
       />
-      <label htmlFor="password">Password</label>
+      <label htmlFor="password">Hasło</label>
       <input
         id="password"
         type="password"
@@ -95,7 +95,7 @@ export function AuthFields({
         required
         value={password}
         onChange={(event) => setPassword(event.target.value)}
-        placeholder="At least 8 characters"
+        placeholder="Co najmniej 8 znaków"
       />
     </>
   );
@@ -110,16 +110,16 @@ export function AuthLayout({ children }: { children: ReactNode }) {
             <ChefHat />
           </span>
           <div>
-            <strong>Household</strong>
-            <span className="brand-subtitle">Cookbook</span>
+            <strong>Domowa</strong>
+            <span className="brand-subtitle">książka kucharska</span>
           </div>
         </div>
         <div className="auth-visual-copy">
-          <p className="eyebrow">One shared kitchen notebook</p>
-          <h1>Good food starts together.</h1>
+          <p className="eyebrow">Jeden wspólny zeszyt kuchenny</p>
+          <h1>Dobre jedzenie zaczyna się od wspólnego gotowania.</h1>
           <p>
-            Recipes, groceries, and cooking steps in one place for everyone at
-            home.
+            Przepisy, zakupy i instrukcje gotowania w jednym miejscu dla
+            wszystkich domowników.
           </p>
         </div>
       </section>

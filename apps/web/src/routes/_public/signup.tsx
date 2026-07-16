@@ -23,12 +23,14 @@ function SignupPage() {
     try {
       const result = await authClient.signUp.email({ email, password, name });
       if (result.error) {
-        setError(result.error.message ?? "Your account could not be created.");
+        setError(
+          "Nie udało się utworzyć konta. Sprawdź dane i spróbuj ponownie.",
+        );
         return;
       }
       window.location.href = "/app";
     } catch {
-      setError("The server did not respond. Please try again.");
+      setError("Serwer nie odpowiada. Spróbuj ponownie.");
     } finally {
       setSubmitting(false);
     }
@@ -36,20 +38,21 @@ function SignupPage() {
 
   return (
     <AuthLayout>
-      <p className="eyebrow">Set the table</p>
-      <h2>Create your account</h2>
+      <p className="eyebrow">Nakryj do stołu</p>
+      <h2>Utwórz konto</h2>
       <p className="auth-subtitle">
-        Then create a household or join someone you cook with.
+        Następnie utwórz grupę domowników albo dołącz do osób, z którymi
+        gotujesz.
       </p>
       <form onSubmit={submit}>
-        <label htmlFor="name">Your name</label>
+        <label htmlFor="name">Imię</label>
         <input
           id="name"
           autoComplete="name"
           required
           value={name}
           onChange={(event) => setName(event.target.value)}
-          placeholder="Alex Parker"
+          placeholder="Jan Kowalski"
         />
         <AuthFields
           email={email}
@@ -63,12 +66,11 @@ function SignupPage() {
           type="submit"
           disabled={submitting}
         >
-          {submitting ? "Creating account..." : "Create account"}{" "}
-          <ChevronRight />
+          {submitting ? "Tworzenie konta..." : "Utwórz konto"} <ChevronRight />
         </button>
       </form>
       <p className="auth-switch">
-        Already have an account? <Link to="/login">Sign in</Link>
+        Masz już konto? <Link to="/login">Zaloguj się</Link>
       </p>
     </AuthLayout>
   );

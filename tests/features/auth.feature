@@ -13,7 +13,7 @@ Feature: Authentication
   Scenario: Recover when the signup endpoint is unavailable
     Given the signup endpoint is unavailable
     When I sign up as "alice@example.com" named "Alice"
-    Then I should see the signup error "The server did not respond. Please try again."
+    Then I should see the signup error "Serwer nie odpowiada. Spróbuj ponownie."
     And the Create account button should be enabled
 
   Scenario: Anonymous users cannot access the cookbook

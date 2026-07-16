@@ -31,11 +31,11 @@ When(
   "I sign up as {string} named {string}",
   async ({ page }, email: string, name: string) => {
     await page.goto("/signup");
-    await page.getByLabel("Your name").fill(name);
-    await page.getByLabel("Email address").fill(email);
-    await page.getByLabel("Password").fill(password);
+    await page.getByLabel("Imię").fill(name);
+    await page.getByLabel("Adres e-mail").fill(email);
+    await page.getByLabel("Hasło").fill(password);
     await page
-      .getByRole("button", { name: "Create account", exact: true })
+      .getByRole("button", { name: "Utwórz konto", exact: true })
       .click();
   },
 );
@@ -44,27 +44,29 @@ When(
   "I sign in as {string} with password {string}",
   async ({ page }, email: string, password: string) => {
     await page.goto("/login");
-    await page.getByLabel("Email address").fill(email);
-    await page.getByLabel("Password").fill(password);
-    await page.getByRole("button", { name: "Sign in", exact: true }).click();
+    await page.getByLabel("Adres e-mail").fill(email);
+    await page.getByLabel("Hasło").fill(password);
+    await page
+      .getByRole("button", { name: "Zaloguj się", exact: true })
+      .click();
   },
 );
 
 Then("I should be ready to create a household", async ({ page }) => {
   await expect(
-    page.getByRole("heading", { name: "Name your household", exact: true }),
+    page.getByRole("heading", { name: "Nazwij swoją grupę", exact: true }),
   ).toBeVisible();
 });
 
 Then("I should be viewing the sign-in page", async ({ page }) => {
   await expect(
-    page.getByRole("heading", { name: "Come to the table", exact: true }),
+    page.getByRole("heading", { name: "Zapraszamy do stołu", exact: true }),
   ).toBeVisible();
 });
 
 Then("I should see an invalid credentials message", async ({ page }) => {
   await expect(
-    page.getByText("That email and password do not match.", { exact: true }),
+    page.getByText("Nieprawidłowy adres e-mail lub hasło.", { exact: true }),
   ).toBeVisible();
 });
 
@@ -77,15 +79,15 @@ Then(
 
 Then("the Create account button should be enabled", async ({ page }) => {
   await expect(
-    page.getByRole("button", { name: "Create account", exact: true }),
+    page.getByRole("button", { name: "Utwórz konto", exact: true }),
   ).toBeEnabled();
 });
 
 async function signIn(page: Page, email: string) {
   await page.goto("/login");
-  await page.getByLabel("Email address").fill(email);
-  await page.getByLabel("Password").fill(password);
-  await page.getByRole("button", { name: "Sign in", exact: true }).click();
+  await page.getByLabel("Adres e-mail").fill(email);
+  await page.getByLabel("Hasło").fill(password);
+  await page.getByRole("button", { name: "Zaloguj się", exact: true }).click();
 }
 
 async function createAccount(page: Page, email: string) {
