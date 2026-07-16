@@ -32,7 +32,8 @@ export const householdRouter = {
       if (!invite) throw new ORPCError("NOT_FOUND");
       const existingHousehold = await getHousehold(id);
       if (existingHousehold) {
-        if (existingHousehold.id === invite.householdId) return existingHousehold;
+        if (existingHousehold.id === invite.householdId)
+          return existingHousehold;
         throw new ORPCError("CONFLICT");
       }
       const household = await acceptInvite(id, input.token);
