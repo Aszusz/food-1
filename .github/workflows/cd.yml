@@ -11,7 +11,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  DEPLOY_WEBHOOK_URL: https://cookbook.typestrict.dev/deploy/food-1
+  DEPLOY_WEBHOOK_URL: https://fullstack.typestrict.dev/deploy/food-1
 
 jobs:
   publish:
