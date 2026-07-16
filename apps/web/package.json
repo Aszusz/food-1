@@ -1,0 +1,34 @@
+{
+  "name": "@monobara/web",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.6.0",
+    "@monobara/contract": "workspace:*",
+    "@orpc/client": "latest",
+    "@orpc/contract": "latest",
+    "@tailwindcss/vite": "latest",
+    "@tanstack/react-query": "latest",
+    "@tanstack/react-router": "latest",
+    "@vitejs/plugin-react": "latest",
+    "better-auth": "latest",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.23.0",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwind-merge": "^3.6.0",
+    "tailwindcss": "latest",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@tanstack/router-plugin": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest"
+  }
+}

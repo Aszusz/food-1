@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_USER: monobara
+          POSTGRES_PASSWORD: monobara
+          POSTGRES_DB: monobara
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U monobara -d monobara"
+          --health-interval 2s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      BETTER_AUTH_URL: http://localhost:3000
+      DATABASE_URL: postgres://monobara:monobara@localhost:5432/monobara
+      PORT: 3000
+      VITE_API_URL: http://localhost:3000
+      WEB_URL: http://localhost:5173
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.11
+
+      - run: bun install --frozen-lockfile
+
+      - name: Format check
+        run: bunx biome format .
+
+      - name: Lint check
+        run: bunx biome lint .
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Prepare BDD test
+        run: |
+          bun run db:push
+          bunx playwright install --with-deps chromium
+
+      - name: BDD test
+        run: |
+          bun --cwd apps/api dev &
+          bun --cwd apps/web dev &
+
+          timeout 60s bash -c 'until curl -fsS http://localhost:3000/health; do sleep 1; done'
+          timeout 60s bash -c 'until curl -fsS http://localhost:5173; do sleep 1; done'
+
+          bun run bddgen:cached
+          bunx playwright test

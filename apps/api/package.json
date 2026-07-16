@@ -1,0 +1,23 @@
+{
+  "name": "@monobara/api",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./router": "./src/router.ts"
+  },
+  "scripts": {
+    "dev": "bun --env-file=../../.env --hot src/index.ts",
+    "build": "tsc -b",
+    "typecheck": "tsc -b"
+  },
+  "dependencies": {
+    "@monobara/contract": "workspace:*",
+    "@monobara/db": "workspace:*",
+    "@orpc/server": "latest",
+    "better-auth": "latest",
+    "hono": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

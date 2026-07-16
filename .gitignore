@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.turbo/
+tsconfig.tsbuildinfo
+apps/web/.tanstack/tmp/
+
+# Test output
+tests/.features-gen/
+playwright-report/
+tests/test-results/
+
+# Environment
+.env*
+!.env.example
+
+# Logs
+*.log

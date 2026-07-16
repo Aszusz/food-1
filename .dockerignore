@@ -1,0 +1,9 @@
+node_modules
+dist
+.turbo
+**/.turbo
+**/tsconfig.tsbuildinfo
+tests
+.env
+.env.*
+!.env.example
